@@ -5,6 +5,11 @@ import {
   userLogin,
   userRegister,
 } from "../Controllers/user.controller.js";
+import {
+  getRestaurantList,
+  getRestaurantMenu,
+} from "../Controllers/restaurant.controller.js";
+import { restaurantFilter } from "../Controllers/restaurantFilter.controller.js";
 
 const router = Router();
 
@@ -15,5 +20,11 @@ router.route("/user/login").post(userLogin);
 router.route("/user/setaddress").post(setUserAddress);
 
 router.route("/user/getUser").post(getUserInfo);
+
+router.route("/user/getrestaurantlist").post(getRestaurantList);
+
+router.route("/user/getmenulist").post(getRestaurantMenu);
+
+router.route("/user/filter").post(restaurantFilter);
 
 export { router };
