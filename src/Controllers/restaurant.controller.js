@@ -82,6 +82,7 @@ const getRestaurantMenu = asyncHandler(async (req, res) => {
     });
 
     return res.status(200).send({
+      status: 200,
       storeInfo,
       product,
     });
@@ -90,4 +91,58 @@ const getRestaurantMenu = asyncHandler(async (req, res) => {
   }
 });
 
-export { getRestaurantList, getRestaurantMenu };
+const searchProductinRestaurantMenuMenu = asyncHandler(async (req, res) => {
+  try {
+    const { storeID, name } = req.body;
+
+    const products = mongoose.connection.db.collection("products");
+
+    const product = await products
+      .aggregate([
+        {
+          $match: {
+            storeID: new ObjectId(storeID),
+          },
+        },
+        {
+          $unwind: "$categoryname",
+        },
+        {
+          $unwind: "$categoryname.product",
+        },
+        {
+          $match: {
+            "categoryname.product.productname": {
+              $regex: name,
+              $options: "i",
+            },
+          },
+        },
+        {
+          $group: {
+            _id: "$_id",
+            matchedProducts: { $push: "$categoryname.product" },
+          },
+        },
+      ])
+      .toArray();
+
+    if (!product) {
+      return res.status(200).send({
+        message: "Invalid Store Credential",
+      });
+    }
+    return res.status(200).send({
+      status: 200,
+      product,
+    });
+  } catch (error) {
+    console.log("Error while Searching items in restaurant menu", error);
+  }
+});
+
+export {
+  getRestaurantList,
+  getRestaurantMenu,
+  searchProductinRestaurantMenuMenu,
+};

@@ -8,6 +8,7 @@ import {
 import {
   getRestaurantList,
   getRestaurantMenu,
+  searchProductinRestaurantMenuMenu,
 } from "../Controllers/restaurant.controller.js";
 import { restaurantFilter } from "../Controllers/restaurantFilter.controller.js";
 
@@ -26,5 +27,7 @@ router.route("/user/getrestaurantlist").post(getRestaurantList);
 router.route("/user/getmenulist").post(getRestaurantMenu);
 
 router.route("/user/filter").post(restaurantFilter);
+
+router.route("/user/searchmenu").post(searchProductinRestaurantMenuMenu);
 
 export { router };
