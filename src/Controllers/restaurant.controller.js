@@ -8,6 +8,8 @@ const getRestaurantList = asyncHandler(async (req, res) => {
   try {
     const { state_district } = req.body;
 
+    console.log("State--->", state_district);
+
     const stateDistrictRegex = new RegExp(state_district, "i");
     const shortStateDistrictRegex = new RegExp(
       state_district.replace(/ district/i, ""),
@@ -77,14 +79,30 @@ const getRestaurantMenu = asyncHandler(async (req, res) => {
       storeID: new ObjectId(storeID),
     });
 
+    if (!storeInfo?.availability?.open) {
+      return res.status(200).send({
+        status: 200,
+        storeInfo,
+      });
+    }
+
     const product = await productInfo.findOne({
       storeID: new ObjectId(storeID),
     });
 
+    // Filter out products where quantity > 0
+    const filteredProducts = product.categoryname.map((category) => ({
+      ...category,
+      product: category.product.filter((item) => item.quantity > 0),
+    }));
+
     return res.status(200).send({
       status: 200,
       storeInfo,
-      product,
+      product: {
+        ...product,
+        categoryname: filteredProducts,
+      },
     });
   } catch (error) {
     console.log("Failed to get restaurantmenu", error);

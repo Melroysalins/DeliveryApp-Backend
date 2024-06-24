@@ -10,7 +10,13 @@ import {
   getRestaurantMenu,
   searchProductinRestaurantMenuMenu,
 } from "../Controllers/restaurant.controller.js";
-import { restaurantFilter } from "../Controllers/restaurantFilter.controller.js";
+import {
+  OfferRestaurantList,
+  restaurantFilter,
+  restaurantorfoodSearch,
+  restaurantwithSearchedFood,
+} from "../Controllers/restaurantFilter.controller.js";
+import { addItemToCart } from "../Controllers/cart.controller.js";
 
 const router = Router();
 
@@ -29,5 +35,13 @@ router.route("/user/getmenulist").post(getRestaurantMenu);
 router.route("/user/filter").post(restaurantFilter);
 
 router.route("/user/searchmenu").post(searchProductinRestaurantMenuMenu);
+
+router.route("/user/offerrestaurant").get(OfferRestaurantList);
+
+router.route("/user/searchfoodorrestaurant").post(restaurantorfoodSearch);
+
+router.route("/user/food").post(restaurantwithSearchedFood);
+
+router.route("/user/addtocart").post(addItemToCart);
 
 export { router };
