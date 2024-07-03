@@ -98,8 +98,6 @@ const getUserInfo = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.body;
 
-    console.log("userID---->", _id);
-
     const user = await User.findById(_id);
 
     if (!user) {

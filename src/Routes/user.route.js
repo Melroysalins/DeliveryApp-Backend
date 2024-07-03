@@ -16,7 +16,26 @@ import {
   restaurantorfoodSearch,
   restaurantwithSearchedFood,
 } from "../Controllers/restaurantFilter.controller.js";
-import { addItemToCart } from "../Controllers/cart.controller.js";
+import {
+  ClearCartItems,
+  addItemToCart,
+  addNewItemToCart,
+  getCartItems,
+  payNow,
+  removeItemQuantity,
+} from "../Controllers/cart.controller.js";
+import { OfferApplied } from "../Controllers/offer.controller.js";
+import {
+  OrderDetailsSave,
+  checkout,
+  paymentVerification,
+  returnrazorkey,
+} from "../Controllers/payment.controller.js";
+import {
+  DeleteReservation,
+  connectionWithSToreandUser,
+  mergecartwithRegisterUser,
+} from "../Controllers/paynow.controller.js";
 
 const router = Router();
 
@@ -43,5 +62,31 @@ router.route("/user/searchfoodorrestaurant").post(restaurantorfoodSearch);
 router.route("/user/food").post(restaurantwithSearchedFood);
 
 router.route("/user/addtocart").post(addItemToCart);
+
+router.route("/user/removeExistingItem").post(addNewItemToCart);
+
+router.route("/user/getCart").post(getCartItems);
+
+router.route("/user/removeItem").post(removeItemQuantity);
+
+router.route("/user/paynow").post(payNow);
+
+router.route("/user/offer").post(OfferApplied);
+
+router.route("/user/payment").post(checkout);
+
+router.route("/user/paymentverification").post(paymentVerification);
+
+router.route("/user/getkey").get(returnrazorkey);
+
+router.route("/user/ordersave").post(OrderDetailsSave);
+
+router.route("/user/clearcart").post(ClearCartItems);
+
+router.route("/user/delete").post(DeleteReservation);
+
+router.route("/user/connect").post(connectionWithSToreandUser);
+
+router.route("/user/mergecart").post(mergecartwithRegisterUser);
 
 export { router };

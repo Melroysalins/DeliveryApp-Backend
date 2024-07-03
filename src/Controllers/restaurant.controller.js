@@ -8,8 +8,6 @@ const getRestaurantList = asyncHandler(async (req, res) => {
   try {
     const { state_district } = req.body;
 
-    console.log("State--->", state_district);
-
     const stateDistrictRegex = new RegExp(state_district, "i");
     const shortStateDistrictRegex = new RegExp(
       state_district.replace(/ district/i, ""),
@@ -91,6 +89,14 @@ const getRestaurantMenu = asyncHandler(async (req, res) => {
     });
 
     // Filter out products where quantity > 0
+
+    if (!product) {
+      res.status(200).send({
+        status: 200,
+        storeInfo,
+      });
+    }
+
     const filteredProducts = product.categoryname.map((category) => ({
       ...category,
       product: category.product.filter((item) => item.quantity > 0),
